@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('patient_search_doctors') }}">
+                            <i class="fas fa-search"></i> Find Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> My Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_medical_history') }}">
+                            <i class="fas fa-history"></i> Medical History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_profile') }}">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-calendar-plus"></i> Book Appointment</h2>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    Doctor Information
+                </div>
+                <div class="card-body">
+                    <h5>{{ doctor.Full_Name }}</h5>
+                    <p>
+                        <strong>Specialization:</strong> <span class="badge bg-info">{{ doctor.Specialization }}</span><br>
+                        <strong>Consultation Fee:</strong> ₹{{ doctor.Consultation_Fee }}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    Select Appointment Slot
+                </div>
+                <div class="card-body">
+                    {% if slots %}
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Available Slots (Next 7 Days)</label>
+                            <select class="form-select" name="slot_id" required>
+                                <option value="">Select a slot</option>
+                                {% set current_date = '' %}
+                                {% for slot in slots %}
+                                    {% if slot.Date != current_date %}
+                                        {% set current_date = slot.Date %}
+                                        <optgroup label="{{ slot.Date }}">
+                                    {% endif %}
+                                    <option value="{{ slot.Slot_ID }}">{{ slot.Time }}</option>
+                                    {% if loop.nextitem is not defined or loop.nextitem.Date != current_date %}
+                                        </optgroup>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> 
+                            <strong>Consultation Fee:</strong> ₹{{ doctor.Consultation_Fee }} will be charged for this appointment.
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check"></i> Confirm Booking
+                            </button>
+                            <a href="{{ url_for('patient_search_doctors') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> No available slots for the next 7 days. Please try again later.
+                    </div>
+                    <a href="{{ url_for('patient_search_doctors') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Search
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

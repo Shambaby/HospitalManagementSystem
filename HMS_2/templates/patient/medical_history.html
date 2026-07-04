@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Medical History{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_search_doctors') }}">
+                            <i class="fas fa-search"></i> Find Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> My Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('patient_medical_history') }}">
+                            <i class="fas fa-history"></i> Medical History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_profile') }}">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-history"></i> My Medical History</h2>
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-medical-alt"></i> Past Consultations & Treatment Records</h5>
+                </div>
+                <div class="card-body">
+                    {% for record in history %}
+                    <div class="card mb-4 border-start border-success border-5 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <h4 class="text-primary">
+                                            <i class="fas fa-calendar-check"></i> {{ record.Date }}
+                                        </h4>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="mb-2">
+                                                    <i class="fas fa-user-md fa-lg text-success me-2"></i>
+                                                    <strong>Doctor:</strong> {{ record.Doctor_Name }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mb-2">
+                                                    <i class="fas fa-stethoscope fa-lg text-info me-2"></i>
+                                                    <strong>Specialization:</strong>
+                                                </p>
+                                                <span class="badge bg-info fs-6">
+                                                    <i class="fas fa-stethoscope"></i> {{ record.Specialization }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-light border border-2">
+                                        <h6 class="fw-bold text-success mb-2">
+                                            <i class="fas fa-diagnoses"></i> Diagnosis Details:
+                                        </h6>
+                                        <p class="mb-0 text-dark">{{ record.Diagnosis }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="fw-bold mb-3">
+                                                <i class="fas fa-download"></i> Documents
+                                            </h6>
+                                            <div class="d-grid gap-2">
+                                                {% if record.Prescription_Path %}
+                                                <a href="{{ url_for('download_file', filename=record.Prescription_Path) }}" 
+                                                   class="btn btn-primary btn-lg" target="_blank">
+                                                    <i class="fas fa-file-prescription"></i> View Prescription
+                                                </a>
+                                                {% endif %}
+                                                {% if record.Report_Path %}
+                                                <a href="{{ url_for('download_file', filename=record.Report_Path) }}" 
+                                                   class="btn btn-success btn-lg" target="_blank">
+                                                    <i class="fas fa-file-medical"></i> View Report
+                                                </a>
+                                                {% endif %}
+                                                {% if not record.Prescription_Path and not record.Report_Path %}
+                                                <div class="alert alert-warning mb-0">
+                                                    <i class="fas fa-exclamation-triangle"></i> 
+                                                    <small>No documents available</small>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-folder-open fa-5x text-muted mb-4"></i>
+                        <h3 class="text-muted mb-3">No Medical History Available</h3>
+                        <p class="text-muted mb-4">You haven't had any consultations yet. Book your first appointment to start your medical journey.</p>
+                        <a href="{{ url_for('patient_search_doctors') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calendar-plus"></i> Book Your First Appointment
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

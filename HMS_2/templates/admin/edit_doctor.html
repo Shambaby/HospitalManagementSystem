@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Doctor{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_doctors') }}">
+                            <i class="fas fa-user-md"></i> Manage Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> All Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_search') }}">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-edit"></i> Edit Doctor</h2>
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Doctor Information</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" name="full_name" 
+                                       value="{{ doctor.Full_Name }}" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Department ID <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="department" 
+                                       value="{{ doctor.Department_ID }}" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Specialization <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" name="specialization" 
+                                       value="{{ doctor.Specialization }}" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Years of Experience <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="experience" 
+                                       value="{{ doctor.Years_of_Experience }}" required min="0">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Consultation Fee <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number" class="form-control" name="fee" 
+                                           value="{{ doctor.Consultation_Fee }}" required min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Salary <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number" class="form-control" name="salary" 
+                                           value="{{ doctor.Salary }}" required min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control form-control-lg" name="phone" 
+                                       value="{{ doctor.Phone_Number }}" required>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save"></i> Update Doctor
+                            </button>
+                            <a href="{{ url_for('admin_doctors') }}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

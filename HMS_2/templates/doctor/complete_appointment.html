@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Complete Appointment{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('doctor_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('doctor_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> My Appointments
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-clipboard-check"></i> Complete Appointment</h2>
+            
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Appointment Details</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-user fa-2x text-primary me-3"></i>
+                                <div>
+                                    <small class="text-muted">Patient Name</small>
+                                    <h5 class="mb-0">{{ appointment.Patient_Name }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-id-badge fa-2x text-success me-3"></i>
+                                <div>
+                                    <small class="text-muted">Appointment ID</small>
+                                    <h5 class="mb-0">#{{ appointment.Appointment_ID }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-calendar-alt fa-2x text-warning me-3"></i>
+                                <div>
+                                    <small class="text-muted">Date</small>
+                                    <h5 class="mb-0">{{ appointment.Date }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock fa-2x text-danger me-3"></i>
+                                <div>
+                                    <small class="text-muted">Time</small>
+                                    <h5 class="mb-0">{{ appointment.Time }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-notes-medical"></i> Enter Diagnosis & Treatment</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold fs-5">
+                                <i class="fas fa-diagnoses"></i> Diagnosis <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control form-control-lg" name="diagnosis" rows="5" 
+                                      placeholder="Enter detailed diagnosis and observations..." required></textarea>
+                            <small class="text-muted">Provide comprehensive diagnosis information</small>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold fs-5">
+                                    <i class="fas fa-file-prescription"></i> Upload Prescription (PDF only)
+                                </label>
+                                <input type="file" class="form-control form-control-lg" name="prescription" accept=".pdf">
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle"></i> Upload prescription PDF document
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold fs-5">
+                                    <i class="fas fa-file-medical"></i> Upload Report (PDF only)
+                                </label>
+                                <input type="file" class="form-control form-control-lg" name="report" accept=".pdf">
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle"></i> Upload test report PDF document
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-primary border-primary">
+                            <i class="fas fa-lightbulb fa-2x float-start me-3"></i>
+                            <strong>Important:</strong> Both prescription and report files must be in PDF format only. 
+                            These documents will be accessible to the patient in their medical history.
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check-circle"></i> Mark as Completed
+                            </button>
+                            <a href="{{ url_for('doctor_appointments') }}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

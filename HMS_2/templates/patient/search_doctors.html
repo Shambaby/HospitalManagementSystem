@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Search Doctors{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('patient_search_doctors') }}">
+                            <i class="fas fa-search"></i> Find Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> My Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_medical_history') }}">
+                            <i class="fas fa-history"></i> Medical History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('patient_profile') }}">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-search"></i> Find Doctors</h2>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label class="form-label">Search by Specialization</label>
+                                <input type="text" class="form-control" name="specialization" 
+                                       placeholder="Enter specialization (e.g., Cardiology, Neurology) or leave empty for all doctors">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            {% if doctors %}
+            <div class="row">
+                {% for doctor in doctors %}
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ doctor.Full_Name }}</h5>
+                            <p class="card-text">
+                                <strong>Specialization:</strong> <span class="badge bg-info">{{ doctor.Specialization }}</span><br>
+                                <strong>Experience:</strong> {{ doctor.Years_of_Experience }} years<br>
+                                <strong>Consultation Fee:</strong> ₹{{ doctor.Consultation_Fee }}
+                            </p>
+                            <a href="{{ url_for('patient_book_appointment', doctor_id=doctor.Doctor_ID) }}" 
+                               class="btn btn-primary">
+                                <i class="fas fa-calendar-plus"></i> Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% elif request.method == 'POST' %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No doctors found matching your search criteria.
+            </div>
+            {% endif %}
+        </main>
+    </div>
+</div>
+{% endblock %}

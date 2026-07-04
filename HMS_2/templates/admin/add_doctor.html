@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Add Doctor{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_doctors') }}">
+                            <i class="fas fa-user-md"></i> Manage Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_appointments') }}">
+                            <i class="fas fa-calendar-check"></i> All Appointments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_search') }}">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-10 ms-sm-auto content-wrapper">
+            <h2 class="mb-4"><i class="fas fa-user-plus"></i> Add New Doctor</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    Doctor Information
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin_add_doctor') }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="full_name" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Department ID <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="department" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Specialization <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="specialization" required
+                                       placeholder="e.g., Cardiology, Neurology">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Years of Experience <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="experience" required min="0">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Consultation Fee <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="fee" required min="0" step="0.01">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Salary <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="salary" required min="0" step="0.01">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" name="dob" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                <select class="form-select" name="gender" required>
+                                    <option value="">Select</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                            
+                            <div class="col-md-12"><hr></div>
+                            <div class="col-md-12"><h5 class="mb-3">Login Credentials</h5></div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Username <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="username" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" name="password" required minlength="6">
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Add Doctor
+                            </button>
+                            <a href="{{ url_for('admin_doctors') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
